@@ -1,5 +1,5 @@
 -std=c2x
 -Werror
 -Wall
--Weverything
+-Wextra
 -Ofast
