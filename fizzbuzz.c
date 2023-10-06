@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <unistd.h>
 
+// #define LIMIT 16
 #define LIMIT 1'000'000'000
 
 typedef unsigned int uint32;
@@ -45,6 +45,24 @@ inline void number(uint32 num) {
 
 void fizzbuzz_impl(uint32 N) {
   uint32 i = 0;
+  for (; i + 15 < N; i += 15)
+  {
+    fizzbuzz();
+    number(i + 1);
+    number(i + 2);
+    fizz();
+    number(i + 4);
+    buzz();
+    fizz();
+    number(i + 7);
+    number(i + 8);
+    fizz();
+    buzz();
+    number(i + 11);
+    fizz();
+    number(i + 13);
+    number(i + 14);
+  }
   for (; i < N; i++) {
     if (i % 15 == 0)
       fizzbuzz();

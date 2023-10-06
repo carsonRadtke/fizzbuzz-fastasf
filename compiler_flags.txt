@@ -1,3 +1,4 @@
+-xc
 -std=c2x
 -Werror
 -Wall
