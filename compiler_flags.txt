@@ -4,3 +4,4 @@
 -Wall
 -Wextra
 -Ofast
+-gdwarf-4

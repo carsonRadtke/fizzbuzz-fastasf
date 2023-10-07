@@ -2,6 +2,7 @@
 
 // #define LIMIT 16
 #define LIMIT 1'000'000'000
+#define BUFFER_SIZE 64 * 1024
 
 typedef unsigned int uint32;
 
@@ -10,7 +11,7 @@ static const char fizzbuzz_str[] = {'F', 'i', 'z', 'z', 'B',
 static const char fizz_str[] = {'F', 'i', 'z', 'z', '\n'};
 static const char buzz_str[] = {'B', 'u', 'z', 'z', '\n'};
 
-static char buffer[64 * 1024] = {0};
+static char buffer[BUFFER_SIZE];
 static char *bufferpos = buffer;
 
 inline void flush() {

@@ -1,2 +1,4 @@
-strace.log
+strace.out
 fizzbuzz.S
+callgrind.out.*
+callgrind_annotate.out

@@ -15,7 +15,10 @@ clean:
 .PHONY: perf
 perf: bin/fizzbuzz
 	objdump --disassemble bin/fizzbuzz > perf/fizzbuzz.S
-	strace -o perf/strace.log bin/fizzbuzz > /dev/null
+	strace -o perf/strace.out bin/fizzbuzz > /dev/null
+	valgrind --tool=callgrind bin/fizzbuzz > /dev/null
+	mv callgrind.out.* perf/
+	callgrind_annotate perf/callgrind.out.* > perf/callgrind_annotate.out
 
 .PHONY: eval
 eval: bin/fizzbuzz
