@@ -1,12 +1,15 @@
+#include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
-// #define LIMIT 16
 #define LIMIT 1'000'000'000
 #define BUFFER_SIZE 64 * 1024
+#define STDOUT_FD 1
+#define U32_MAX_STRLEN 11
 
 typedef unsigned int uint32;
 
-static const char fizzbuzz_str[] = {'F', 'i', 'z', 'z', 'B',
+static const char fizzbuzz_str[] = {'F', 'i', 'z', 'z','B',
                                     'u', 'z', 'z', '\n'};
 static const char fizz_str[] = {'F', 'i', 'z', 'z', '\n'};
 static const char buzz_str[] = {'B', 'u', 'z', 'z', '\n'};
@@ -15,33 +18,35 @@ static char buffer[BUFFER_SIZE];
 static char *bufferpos = buffer;
 
 inline void flush() {
-  write(1, buffer, bufferpos - buffer);
+  write(STDOUT_FD, buffer, bufferpos - buffer);
   bufferpos = buffer;
 }
 
-inline void cp(const char *str, uint32 len) {
+inline void prnt(const char *str, uint32 len) {
   if (bufferpos + len > buffer + sizeof(buffer)) {
     flush();
   }
-  for (uint32 i = 0; i < len; i++)
-    *(bufferpos++) = *(str++);
+  memcpy(bufferpos, str, len);
+  bufferpos += len;
 }
 
-inline void fizzbuzz(void) { cp(fizzbuzz_str, sizeof(fizzbuzz_str)); }
-inline void fizz(void) { cp(fizz_str, sizeof(fizz_str)); }
-inline void buzz(void) { cp(buzz_str, sizeof(buzz_str)); }
+inline void fizzbuzz(void) { prnt(fizzbuzz_str, sizeof(fizzbuzz_str)); }
+inline void fizz(void) { prnt(fizz_str, sizeof(fizz_str)); }
+inline void buzz(void) { prnt(buzz_str, sizeof(buzz_str)); }
 inline void number(uint32 num) {
-  char numbuf[21];
-  char *digptr = &numbuf[sizeof(numbuf) - 1];
-  *digptr = '\n';
-
+  char numbuf[U32_MAX_STRLEN];
+  char *numbuf_end = numbuf + sizeof(numbuf);
+  char *numbuf_start = numbuf_end;
+  
   uint32 n = num;
-  while (n > 0) {
-    *(--digptr) = '0' + (n % 10);
+  *(--numbuf_start) = '\n';
+  do
+  {
+    *(--numbuf_start) = '0' + (n % 10);
     n /= 10;
-  }
+  } while (n > 0);
 
-  cp(digptr, numbuf + sizeof(numbuf) - digptr);
+  prnt(numbuf_start, numbuf_end - numbuf_start);
 }
 
 void fizzbuzz_impl(uint32 N) {
