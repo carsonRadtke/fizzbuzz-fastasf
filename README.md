@@ -10,5 +10,7 @@ Namely:
 
 This has increased the throughput from 236 MiB/s to 1.04 GiB/s.
 
-In the future I'd like to come back to this and see what I can doing using vector
-operations.
+In the future, there are a couple of optimizations I envision.
+
+1. Vector operations. Use `#include <arm_neon.h>`?
+2. Branchless programming. What kind of performance improvement would this provide?
